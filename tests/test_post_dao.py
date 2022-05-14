@@ -12,7 +12,8 @@ class TestPostsDAO:
     def test_get_posts_all_check_type(self, posts_dao):
         posts = posts_dao.get_posts_all()
         assert type(posts) == list, 'Все посты должны быть списком'
-        assert type(posts[0]) == dict, 'Каждый пост должен быть словарём'
+        for post in posts:
+            assert type(post) == dict, 'Каждый пост должен быть словарём'
 
     def test_get_posts_all_has_keys(self, posts_dao):
         posts = posts_dao.get_posts_all()
@@ -21,6 +22,12 @@ class TestPostsDAO:
             keys_expected = {"poster_name", "poster_avatar", "pic", "content", "views_count", "likes_count", "pk"}
             first_post_keys = set(first_post.keys())
             assert first_post_keys == keys_expected, 'Полученные ключи не верны'
+
+    def test_post_by_id_chek_type(self, posts_dao):
+        for i in range(len(posts_dao.get_posts_all())):
+            post = posts_dao.post_by_id(i+1)
+            assert type(post) == dict, 'Каждый пост должен быть словарём'
+
 
 
 
