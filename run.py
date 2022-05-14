@@ -1,6 +1,5 @@
 from flask import Flask
 
-
 from app.api.views import api_blueprint
 from app.posts.views import posts_blueprint
 

@@ -1,7 +1,7 @@
 import json
 
-class PostsDAO:
 
+class PostsDAO:
     """ Класс позволяет работать со всеми постами"""
 
     def __init__(self, path):
@@ -35,7 +35,6 @@ class PostsDAO:
         for post in posts:
             if post['pk'] == post_id:
                 return post
-
 
     def post_by_username(self, username):
         """ Возвращает список постов по имени"""
