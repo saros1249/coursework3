@@ -1,3 +1,4 @@
+# Основные функции.
 import json
 
 
@@ -24,10 +25,13 @@ class PostsDAO:
         posts = self.get_posts_all()
         posts_filtered = []
         query_lower = query.lower()
-        for post in posts:
-            if query_lower in post["content"].lower():
-                posts_filtered.append(post)
-        return posts_filtered
+        try:
+            for post in posts:
+                if query_lower in post["content"].lower():
+                    posts_filtered.append(post)
+            return posts_filtered
+        except:
+            return 'Ошибка'
 
     def post_by_id(self, post_id):
         """ Возвращает пост по id"""
@@ -41,6 +45,23 @@ class PostsDAO:
         posts = self.get_posts_all()
         posts_username = []
         for post in posts:
-            if post['poster_name'] == username:
+            if username == post['poster_name']:
                 posts_username.append(post)
-                return posts_username
+        return posts_username
+
+
+    def posts_by_tag(self, tag):
+        """ Возвращает список по тегу #'tag'"""
+        posts = self.get_posts_all()
+        posts_by_tag = []
+        for post in posts:
+            if tag in post["tag"]:
+                posts_by_tag.append(post)
+        return posts_by_tag
+
+
+
+
+
+
+

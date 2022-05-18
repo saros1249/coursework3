@@ -1,13 +1,21 @@
 from flask import Blueprint, jsonify
+from app.posts.dao.posts_dao import PostsDAO
+from app.posts.dao.comments_dao import CommentsDAO
+from config.config import *
+
+posts_dao = PostsDAO(POST_PATH)
+comments_dao = CommentsDAO(COMMENT_PATH)
 
 api_blueprint = Blueprint('api_blueprint', __name__)
 
 
-@api_blueprint.route('/api/')
+@api_blueprint.route('/api/posts/')
 def page_api():
-    return 'All posts'
+    posts = posts_dao.get_posts_all()
+    return jsonify(posts)
 
 
 @api_blueprint.route('/api/posts/<int:posts_id>/')
 def page_api_posts_id(posts_id):
-    return jsonify({'content': 'One post'})
+    one_post = posts_dao.post_by_id(posts_id)
+    return jsonify(one_post)
