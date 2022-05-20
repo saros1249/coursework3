@@ -24,16 +24,14 @@ def page_posts_all():
 
 @posts_blueprint.route('/search/')
 def page_searh_posts():
-    try:
-        s = request.args.get("s", None)
-        posts_filtered = posts_dao.search_posts(s)
-        counter = len(posts_filtered)
-        if counter != 0:
-            return render_template('search.html', s=s, posts=posts_filtered, counter=counter)
+        s = request.args.get("s", "")
+        if s != "":
+            posts_filtered = posts_dao.search_posts(s)
+            counter = len(posts_filtered)
         else:
-            return 'По вашему запросу ничего не найдено'
-    except:
-        return 'Ошибка поиска'
+            posts_filtered =[]
+            counter = 0
+        return render_template('search.html', query=s, posts=posts_filtered, counter=counter)
 
 
 @posts_blueprint.route('/posts/<int:post_id>/')
@@ -73,8 +71,9 @@ def page_remove_bookmarks(post_id):
 @posts_blueprint.route('/users/<username>/')
 def page_username_post(username):
     posts_username = posts_dao.post_by_username(username)
+    tagnames = posts_dao.tag(username)
     try:
-        return render_template('user-feed.html', posts=posts_username)
+        return render_template('user-feed.html', posts=posts_username, tagnames=tagnames)
     except:
         return "Не удлось загрузить посты."
 
@@ -83,6 +82,6 @@ def page_username_post(username):
 def page_post_by_tag(tagname):
     post_by_tag = posts_dao.posts_by_tag(tagname)
     try:
-        return render_template('tag.html', posts=post_by_tag)
+        return render_template('tag.html', posts=post_by_tag, tagname=tagname)
     except:
         "Не удлось загрузить посты."

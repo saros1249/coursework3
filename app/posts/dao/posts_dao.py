@@ -50,14 +50,27 @@ class PostsDAO:
         return posts_username
 
 
-    def posts_by_tag(self, tag):
-        """ Возвращает список по тегу #'tag'"""
+    def posts_by_tag(self, tagname):
+        """ Возвращает список постов по тегу #'tag'"""
         posts = self.get_posts_all()
         posts_by_tag = []
         for post in posts:
-            if tag in post["tag"]:
+            if tagname in post['content']:
                 posts_by_tag.append(post)
         return posts_by_tag
+
+
+    def tag(self, username):
+        """ Возвращает список тегов"""
+        posts = self.get_posts_all()
+        tag_list = []
+        for post in posts:
+            if username == post['poster_name']:
+                content_list = post['content'].split()
+                for i in range(len(content_list)):
+                    if len(content_list[i]) > 1 and content_list[i][1] != ' ' and '#' in content_list[i]:
+                        tag_list.append({post['pk']:content_list[i]})
+        return tag_list
 
 
 
