@@ -41,10 +41,11 @@
         {% for tagname in tagnames %}
         {% for key, value in tagname.items() %}
         {% if key == post.pk %}
-        <a href="/tag/{{ value }}" class="item__tag">{{ value }}</a>
+        <a href="/tag/{{ value }}" class="item__tag">#{{ value|safe }}</a>
         {% endif %}
         {% endfor %}
-        {% endfor %} {{ post.content }}</p>
+        {% endfor %}
+        {{ post.content }}</p>
         <div class="item__post-info">
           <div class="item__counter">
             <img src="../../static/img/eye.png" alt="" class="item__counter-icon" width="26">

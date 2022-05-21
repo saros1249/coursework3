@@ -45,20 +45,19 @@ class PostsDAO:
         posts = self.get_posts_all()
         posts_username = []
         for post in posts:
-            if username == post['poster_name']:
+            if username.lower() == post['poster_name'].lower():
                 posts_username.append(post)
         return posts_username
 
-
     def posts_by_tag(self, tagname):
-        """ Возвращает список постов по тегу #'tag'"""
+        """ Возвращает список постов по тегу '#tagname'"""
         posts = self.get_posts_all()
         posts_by_tag = []
+        tag = '#' + tagname
         for post in posts:
-            if tagname in post['content']:
+            if tag in post['content']:
                 posts_by_tag.append(post)
         return posts_by_tag
-
 
     def tag(self, username):
         """ Возвращает список тегов"""
@@ -69,12 +68,5 @@ class PostsDAO:
                 content_list = post['content'].split()
                 for i in range(len(content_list)):
                     if len(content_list[i]) > 1 and content_list[i][1] != ' ' and '#' in content_list[i]:
-                        tag_list.append({post['pk']:content_list[i]})
+                        tag_list.append({post['pk']: content_list[i][1:]})
         return tag_list
-
-
-
-
-
-
-

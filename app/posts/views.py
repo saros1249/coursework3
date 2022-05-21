@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
+import random
 
 from config.config import *
 from .dao.bookmarks_dao import BookmarksDAO
@@ -16,8 +17,12 @@ posts_blueprint = Blueprint('posts_blueprint', __name__, template_folder="templa
 def page_posts_all():
     counter_bookmarks = len(bookmarks_dao.get_bookmarks_all())
     posts_all = posts_dao.get_posts_all()
+    if len(posts_all) > 10:
+        posts = random.sample(posts_all, 10)
+    else:
+        posts = posts_all
     try:
-        return render_template('index.html', posts=posts_all, counter_bookmarks=counter_bookmarks)
+        return render_template('index.html', posts=posts, counter_bookmarks=counter_bookmarks)
     except:
         return "Не удaлось загрузить посты."
 
@@ -28,10 +33,13 @@ def page_searh_posts():
         if s != "":
             posts_filtered = posts_dao.search_posts(s)
             counter = len(posts_filtered)
+            tagnames = []
+            for post in posts_filtered:
+                tagnames.extend(posts_dao.tag(post['poster_name']))
         else:
             posts_filtered =[]
             counter = 0
-        return render_template('search.html', query=s, posts=posts_filtered, counter=counter)
+        return render_template('search.html', query=s, posts=posts_filtered, counter=counter, tagnames=tagnames)
 
 
 @posts_blueprint.route('/posts/<int:post_id>/')
