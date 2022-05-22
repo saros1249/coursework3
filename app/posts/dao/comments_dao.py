@@ -1,6 +1,8 @@
 # Функции для работы с комментариями
 import json
 
+from config.exeption import DataJsonError
+
 
 class CommentsDAO:
 
@@ -15,7 +17,7 @@ class CommentsDAO:
                 data = json.load(file)
             return data
         except(FileNotFoundError, json.JSONDecodeError):
-            return DataJsonError
+            raise DataJsonError
 
     def get_comments_by_post_id(self, post_id):
         """ Возвращает список комментариев по id поста"""
@@ -26,5 +28,5 @@ class CommentsDAO:
                 if comment["post_id"] == post_id:
                     comments_filtered.append(comment)
             return comments_filtered
-        except:
-            return 'Ошибка загрузки комментариев.'
+        except (FileNotFoundError, json.JSONDecodeError):
+            raise DataJsonError

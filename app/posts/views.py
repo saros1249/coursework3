@@ -34,7 +34,6 @@ def page_posts_all():
         return 'Не удaлось загрузить посты.'
 
 
-
 @posts_blueprint.route('/search/')
 def page_searh_posts():
     s = request.args.get("s", "")

@@ -19,8 +19,8 @@ def page_api():
     return jsonify(posts)
 
 
-@api_blueprint.route('/api/posts/<int:posts_id>/')
-def page_api_posts_id(posts_id):
+@api_blueprint.route('/api/posts/<int:post_id>/')
+def page_api_posts_id(post_id):
     logger.debug(f'Запрошен пост по ID {post_id} через API.')
-    one_post = posts_dao.post_by_id(posts_id)
+    one_post = posts_dao.post_by_id(post_id)
     return jsonify(one_post)
