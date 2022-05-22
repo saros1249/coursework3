@@ -46,7 +46,7 @@
         <a href="/posts/{{ post.pk }}/" class="item__post-link">
           <img src={{ post.pic }} alt="Изображение не загружено." width="348" class="item__post-img">
         </a>
-        <p class="item__descr">{{ post.content }}</p>
+        <p class="item__descr">{{ post.content[:110] }}...</p>
         <div class="item__post-info">
           <div class="item__counter">
             <img src="../../static/img/eye.png" alt="" class="item__counter-icon" width="26">
