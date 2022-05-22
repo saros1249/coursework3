@@ -13,12 +13,9 @@ class TestCommentsDAO:
     def keys_expected(self):
         return {"post_id", "commenter_name", "comment", "pk"}
 
-    @pytest.fixture
-    def comments(self, comments_dao):
-        return comments_dao.load_data()
-
     # Комментарии по id пользователя
-    def get_comments_by_post_id_chek_type(self, comments_dao, comments):
+    def get_comments_by_post_id_chek_type(self, comments_dao):
+        comments = comments_dao.load_data()
         for i in range(len(comments)):
             comment = comments_dao.get_comments_by_post_id(i + 1)
             assert type(comment) == dict, 'Каждый комментарий должен быть словарём'
@@ -35,4 +32,4 @@ class TestCommentsDAO:
     def test_get_comments_by_post_id_chek_type_correct_post_id(self, comments_dao, post_id):
         comments = comments_dao.get_comments_by_post_id(post_id)
         for comment in comments:
-            assert comment["post_id"] == post_id, 'Номер поста не соответствует загруженному.'
+            assert comment["post_id"] == post_id, 'Номер поста не соответствует.'
