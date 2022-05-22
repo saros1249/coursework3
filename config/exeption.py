@@ -1,0 +1,2 @@
+class DataJsonError(Exception):
+    pass
